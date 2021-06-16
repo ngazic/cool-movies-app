@@ -21,10 +21,10 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
   return (
     <nav className='navigation' >
       <Link to='/movie' onClick={onClickHandler} className={"navigation__link "+setActiveLink('movie')}>
-        Movies
+        Search for Movies
      </Link>
       <Link to='/tv' onClick={onClickHandler} className={"navigation__link "+setActiveLink('tv')}>
-        TV Shows
+        Favorite
      </Link>
     </nav>
   );

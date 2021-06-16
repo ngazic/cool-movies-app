@@ -1,12 +1,12 @@
 
-import { GET_TOP_MOVIES, MovieAction, Items } from '../types'
+import { GET_TOP_MOVIES, MovieAction, TopMoviesDataResponse } from '../types'
 
-const initialState: Items[] = []
+const initialState: TopMoviesDataResponse = {Search: [], totalResults:0, searchQuery: ''}
 
-function moviesReducer(state = initialState, action: MovieAction): Items[] {
+function moviesReducer(state = initialState, action: MovieAction): TopMoviesDataResponse {
   switch (action.type) {
     case GET_TOP_MOVIES: {
-      return action.payload.slice(0,10)
+      return action.payload
     }
     default:
       return state;

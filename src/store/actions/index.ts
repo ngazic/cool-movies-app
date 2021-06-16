@@ -1,21 +1,28 @@
 import { ThunkAction } from 'redux-thunk'
-import { SearchAction, TopMoviesDataResonse, MovieAction, ShowsAction, GET_TOP_SHOWS, GET_TOP_MOVIES, SEARCH, SET_ERROR, SET_SEARCH_ERROR } from '../types'
-import { RootState } from '../index'
+import { SearchAction, TopMoviesDataResponse, MovieAction, GET_TOP_MOVIES, SEARCH, SET_ERROR, SET_SEARCH_ERROR } from '../types'
+import store, { RootState } from '../index'
 import API from '../../API-helper'
 
-export const getSearchItems = (query: string, category: string): ThunkAction<void, RootState, null, SearchAction> => {
+export const getSearchItems = (query="hello world", page = 1): ThunkAction<void, RootState, null, SearchAction> => {
   return async dispatch => {
     try {
-      const res = await fetch(`${API.apiBasePath}/search/${category}?api_key=${API.REACT_APP_API_KEY}&language=en-US&query=${query}&page=1`)
+      const res = await fetch(`${API.apiBasePath}=${API.REACT_APP_API_KEY}&s=${query}&page=${page}`)
       if (!res.ok || query.trim() === '') {
         const resData = await res.json();
         throw new Error(resData.message);
 
       }
-      const data: TopMoviesDataResonse = await res.json();
+      const data: TopMoviesDataResponse = await res.json();
+      const mainState = store.getState();
+      let payload: TopMoviesDataResponse;
+      if (query === mainState.search.searchQuery) {
+        payload = {Search: mainState.search.Search.concat(data.Search), searchQuery: query, totalResults: data.totalResults}
+      } else {
+        payload = {...data, searchQuery: query};
+      }
       dispatch({
         type: SEARCH,
-        payload: data.results
+        payload
       })
     } catch (err) {
       dispatch({
@@ -26,19 +33,19 @@ export const getSearchItems = (query: string, category: string): ThunkAction<voi
   }
 }
 
-export const getTopMovies = (): ThunkAction<void, RootState, null, MovieAction> => {
+export const getTopMovies = (query="hello world"): ThunkAction<void, RootState, null, MovieAction> => {
   return async dispatch => {
     try {
-      const res = await fetch(`${API.apiBasePath}/movie/top_rated?api_key=${API.REACT_APP_API_KEY}&language=en-US&page=1`)
+      const res = await fetch(`${API.apiBasePath}=${API.REACT_APP_API_KEY}&page=1&s="${query}"`)
       if (!res.ok) {
         const resData = await res.json();
         throw new Error(resData.message);
 
       }
-      const data: TopMoviesDataResonse = await res.json();
+      const data: TopMoviesDataResponse = await res.json();
       dispatch({
         type: GET_TOP_MOVIES,
-        payload: data.results
+        payload: {...data, searchQuery: query}
       })
     } catch (err) {
       dispatch({
@@ -49,25 +56,3 @@ export const getTopMovies = (): ThunkAction<void, RootState, null, MovieAction> 
   }
 }
 
-export const getTopShows = (): ThunkAction<void, RootState, null, ShowsAction> => {
-  return async dispatch => {
-    try {
-      const res = await fetch(`${API.apiBasePath}/tv/top_rated?api_key=${API.REACT_APP_API_KEY}&language=en-US&page=1`)
-      if (!res.ok) {
-        const resData = await res.json();
-        throw new Error(resData.message);
-
-      }
-      const data: TopMoviesDataResonse = await res.json();
-      dispatch({
-        type: GET_TOP_SHOWS,
-        payload: data.results
-      })
-    } catch (err) {
-      dispatch({
-        type: SET_ERROR,
-        payload: err
-      });
-    }
-  }
-}

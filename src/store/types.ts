@@ -1,22 +1,17 @@
 export const SEARCH = 'SEARCH';
 export const GET_TOP_MOVIES = 'GET_TOP_MOVIES';
-export const GET_TOP_SHOWS = 'GET_TOP_SHOWS';
+export const GET_ITEM_DETAILS = 'GET_ITEM_DETAILS';
 export const SET_ERROR = 'SET_ERROR';
 export const SET_SEARCH_ERROR = 'SET_SEARCH_ERROR';
 
 export interface SearchFor {
   type: typeof SEARCH;
-  payload: Items[];
+  payload: {Search: Items[], totalResults: number, searchQuery: string}
 }
 
 export interface GetTopMovies {
   type: typeof GET_TOP_MOVIES,
-  payload: Items[]
-}
-
-export interface GetTopShows {
-  type: typeof GET_TOP_SHOWS,
-  payload: Items[]
+  payload: {Search: Items[], totalResults: number, searchQuery: string}
 }
 
 export interface SetError {
@@ -34,20 +29,20 @@ interface SearchItems {
 }
 
 export interface Items {
-  id: number;
-  adult: boolean;
-  title?: string;
-  name?: string;
-  poster_path: string;
-  overview: string;
+  imdbID: string;
+  Type: string;
+  Year: number;
+  Title: string;
+  Poster: string;
 }
 
 
-export interface TopMoviesDataResonse {
-  results: Items[]
+export interface TopMoviesDataResponse {
+  Search: Items[],
+  totalResults: number,
+  searchQuery: string
 }
 
 export type SearchState = SearchItems;
 export type SearchAction = SearchFor | SetSearchError;
 export type MovieAction = GetTopMovies | SetError;
-export type ShowsAction = GetTopShows | SetError;
