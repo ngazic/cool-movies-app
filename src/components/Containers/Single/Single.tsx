@@ -5,7 +5,7 @@ import {useLocation, useHistory} from "react-router-dom";
 import {useStore} from "react-redux";
 import noImgPlacehoder from "../../../assets/no-image.png";
 import API from "../../../API-helper";
-import {Card} from "antd";
+import {Card, Row, Col} from "antd";
 
 interface ListProps {
   show?: string;
@@ -23,7 +23,7 @@ const Single: React.FC<ListProps> = (props) => {
     Genre: "",
     Actors: ""
   });
-  const [tab, setTab] = useState('');
+  const [tab, setTab] = useState('description');
   const tabList = [
     {
       key: "description",
@@ -114,8 +114,8 @@ const Single: React.FC<ListProps> = (props) => {
     goBack();
   }
 
-  return (<div className="row single">
-    <section className="col">
+  return (<Row className="single">
+    <Col xs={{ span: 24 }} sm={{ span: 20, offset: 2 }} lg={{ span: 16, offset:4 }}>
       <Card
       extra={<div onClick={goBack} aria-label="link" className="single__link">
       Back
@@ -137,8 +137,8 @@ const Single: React.FC<ListProps> = (props) => {
             {contentList[tab as keyof typeof contentList]}
           </Card>
       </Card>
-    </section>
-  </div>);
+    </Col>
+  </Row>);
 };
 
 export default Single;
