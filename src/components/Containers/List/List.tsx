@@ -46,9 +46,8 @@ const List: React.FC<ListProps> = (props) => {
     <InfiniteScroll dataLength={props.items?.length||0}  next={fetchMoreData}
      loader= {<h4 style={(props.totalResults || 0) > (props.items?.length || 0)? {} : {display: "none"}}>Loading...</h4>} 
      hasMore={(props.totalResults || 0) > (props.items?.length || 0)} >
-    <section className="list">
-      <Row gutter={16}>
     <BackTop />
+    <Row  className="list">
     {
       props.items!.map((item: Items, index: number) => {
         item.isFavorite = item.isFavorite ? true : false
@@ -73,7 +72,6 @@ const List: React.FC<ListProps> = (props) => {
       })
     }
     </Row>
-  </section>
     </InfiniteScroll>
   </div>);
 };
