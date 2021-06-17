@@ -9,7 +9,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useDispatch } from "react-redux";
 import { setFavoritePicks, getSearchItems } from "../../../store/actions";
 import { StarFilled} from '@ant-design/icons'
-import { BackTop } from 'antd';
+import { BackTop, Row, Col } from 'antd';
 
 interface ListProps {
   show: string;
@@ -46,12 +46,14 @@ const List: React.FC<ListProps> = (props) => {
     <InfiniteScroll dataLength={props.items?.length||0}  next={fetchMoreData}
      loader= {<h4 style={(props.totalResults || 0) > (props.items?.length || 0)? {} : {display: "none"}}>Loading...</h4>} 
      hasMore={(props.totalResults || 0) > (props.items?.length || 0)} >
-    <section className="row list">
+    <section className="list">
+      <Row gutter={16}>
     <BackTop />
     {
       props.items!.map((item: Items, index: number) => {
         item.isFavorite = item.isFavorite ? true : false
-        return (<article  className="col col-6 list__item-container" key={index}>
+        return (<Col xs={{ span: 24 }} sm={{ span: 10, offset: 1 }} lg={{ span: 10, offset:1 }} className="list__item-container" key={index}>
+          
           <div className="list__item">
             <div className="image-wrapper" onClick={() => singleView(props.category!, index)}>
               <figure>
@@ -67,9 +69,10 @@ const List: React.FC<ListProps> = (props) => {
               item.Title
             }</h1>
           </div>
-        </article>);
+        </Col>);
       })
     }
+    </Row>
   </section>
     </InfiniteScroll>
   </div>);
