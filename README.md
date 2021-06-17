@@ -5,7 +5,7 @@ API KEY is in .env file. To protect api keys, they should start with **"REACT_AP
 
 ## Live app
 
-[Go to the app]()
+[Go to the app](https://cool-movies.netlify.app/)
 
 ## Available Scripts
 

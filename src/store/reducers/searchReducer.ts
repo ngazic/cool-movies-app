@@ -1,5 +1,5 @@
 
-import { GET_ITEM_DETAILS, Items, SEARCH, SearchAction, SET_SEARCH_ERROR, TopMoviesDataResponse } from '../types'
+import { SEARCH, SearchAction, SET_SEARCH_ERROR, TopMoviesDataResponse } from '../types'
 
 const initialState: TopMoviesDataResponse = {Search: [], totalResults:0, searchQuery: ''}
 
