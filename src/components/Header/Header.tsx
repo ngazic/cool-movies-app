@@ -1,41 +1,51 @@
-import React, {FormEvent, FunctionComponent, useState} from "react";
+import React, {FunctionComponent} from "react";
 import {useDispatch} from "react-redux";
 import {useLocation} from "react-router-dom";
 import {getSearchItems} from "../../store/actions";
 import Navigation from "./Navigation/Navigation";
-import Search from "./Search/Search";
-import { Button } from "antd";
+import {Input, message } from "antd";
 
 const Header: FunctionComponent = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   const location = useLocation();
   let hide = false;
+  let hideSearchBar = false;
+  const dispatch = useDispatch();
+  const {Search} = Input;
+
   if (location.pathname === "/single") {
     hide = true;
   }
-  const dispatch = useDispatch();
 
-  const changeHandler = (e : FormEvent<HTMLInputElement>) => {
-    const searchTerm = e.currentTarget.value;
-    setSearchTerm(searchTerm);
-  };
+  if (location.pathname !== "/search") {
+    hideSearchBar = true;
+  }
 
-  const btnClick = () => {
-    if (searchTerm.length > 2) {
-      dispatch(getSearchItems(searchTerm));
-    } else {
-      alert("You must enter at least 3 letters!!!");
+  const onSearch = (value : string) => {
+    if (value.trim().length < 3) {
+      info();
+      return;
     }
+    dispatch(getSearchItems(value));
   };
+
+  const info = () => {
+    message.info("You must enter at least 3 letters!!!");
+  };
+
   return (<header style={{
       display: hide
         ? "none"
-        : "", marginBottom: 20
+        : "",
+      marginBottom: 20
     }}>
-    <Navigation />
-    <Search change={changeHandler}/>
-    <Button type='primary' onClick={btnClick}>SEARCH</Button>
+    <Navigation/>
+    <div style={{
+        display: hideSearchBar
+          ? "none"
+          : ""
+      }}>
+      <Search placeholder="input search text" allowClear  enterButton="Search" size="large" onSearch={onSearch}/>
+    </div>
   </header>);
 };
 

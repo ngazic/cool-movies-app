@@ -9,6 +9,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useDispatch } from "react-redux";
 import { setFavoritePicks, getSearchItems } from "../../../store/actions";
 import { StarFilled} from '@ant-design/icons'
+import { BackTop } from 'antd';
 
 interface ListProps {
   show: string;
@@ -46,6 +47,7 @@ const List: React.FC<ListProps> = (props) => {
      loader= {<h4 style={(props.totalResults || 0) > (props.items?.length || 0)? {} : {display: "none"}}>Loading...</h4>} 
      hasMore={(props.totalResults || 0) > (props.items?.length || 0)} >
     <section className="row list">
+    <BackTop />
     {
       props.items!.map((item: Items, index: number) => {
         item.isFavorite = item.isFavorite ? true : false
