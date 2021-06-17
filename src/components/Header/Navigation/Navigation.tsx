@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {Link, useLocation} from "react-router-dom";
-import "./Navigation.scss";
+import {Menu} from "antd";
+import { FileSearchOutlined, StarOutlined} from '@ant-design/icons';
 
 interface NavigationProps {}
 const Navigation: FunctionComponent<NavigationProps> = (props) => {
@@ -8,17 +9,19 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
 
   const setActiveLink = (path : string): string => {
     return location.pathname === `/${path}`
-      ? "active"
+      ? "ant-menu-item-selected"
       : "";
   };
 
   return (<nav className="navigation">
-    <Link to="/search" className={"navigation__link " + setActiveLink("search")}>
-      Search for Movies
-    </Link>
-    <Link to="/favorite" className={"navigation__link " + setActiveLink("favorite")}>
-      Favorite
-    </Link>
+    <Menu mode="horizontal">
+      <Menu.Item icon={<FileSearchOutlined />}  className={setActiveLink('search')} >
+        <Link to="/search">Search for Movies</Link>
+      </Menu.Item>
+      <Menu.Item icon={<StarOutlined />} className={setActiveLink('favorite')}>
+        <Link to="/favorite">Favorite</Link>
+      </Menu.Item>
+    </Menu>
   </nav>);
 };
 
