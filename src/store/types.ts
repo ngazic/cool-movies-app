@@ -34,6 +34,7 @@ export interface Items {
   Year: number;
   Title: string;
   Poster: string;
+  isFavorite: boolean;
 }
 
 

@@ -80,5 +80,13 @@ npm i react-router-dom @types/react-router-dom
 npm i redux-mock-store -D
 ```
 
+### Add Ant Design
+
+[Docs](https://ant.design/)
+
+```
+npm i antd
+```
+
 ## Useful resources
 [Free code camp: Start testing using react testing library](https://www.freecodecamp.org/news/8-simple-steps-to-start-testing-react-apps-using-react-testing-library-and-jest/).

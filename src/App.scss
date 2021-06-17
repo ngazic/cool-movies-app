@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .App {
   padding-right: 15px;
   padding-left: 15px;
@@ -52,13 +54,25 @@
         top: 0;
         left: 0;
         height: 100%;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
-
   }
 
   .title {
     font-size: 38px;
     line-height: 46px;
+  }
+
+  .star {
+    transition: all 0.7s;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
   }
 }

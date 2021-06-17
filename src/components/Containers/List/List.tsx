@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Items, TopMoviesDataResponse } from "../../../store/types";
+import { Items } from "../../../store/types";
 import React from "react";
 import { RootState } from "../../../store";
 import "./List.scss";
@@ -7,7 +7,8 @@ import { useHistory } from "react-router-dom";
 import noImgPlacehoder from '../../../assets/no-image.png'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useDispatch } from "react-redux";
-import { getSearchItems } from "../../../store/actions";
+import { setFavoritePicks, getSearchItems } from "../../../store/actions";
+import { StarFilled} from '@ant-design/icons'
 
 interface ListProps {
   show: string;
@@ -20,12 +21,25 @@ interface ListProps {
 const List: React.FC<ListProps> = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const singleView = (category: string, id: number) => {
     history.push("/single", { category, id });
   };
+
+  const ToggleFavorite = (index: number, category: string) => {
+    dispatch(setFavoritePicks(index, category));
+  }
   const fetchMoreData = async () => {
    const page = (props.items?.length!/10) + 1;
     dispatch(getSearchItems(props.searchQuery!, page))
+  }
+  const setStarIconcolor = (index: number) => {
+    const el = (document.querySelector(`#star-${index} svg`) as HTMLElement);
+    if(el.style['fill'] !== ''){
+      el.style['fill'] = '';
+    }else {
+      el.style['fill'] = 'yellow';
+    }
   }
   return (<div>
     <InfiniteScroll dataLength={props.items?.length||0}  next={fetchMoreData}
@@ -34,9 +48,10 @@ const List: React.FC<ListProps> = (props) => {
     <section className="row list">
     {
       props.items!.map((item: Items, index: number) => {
-        return (<article onClick={() => singleView(props.category!, index)} className="col col-6 list__item-container" key={index}>
+        item.isFavorite = item.isFavorite ? true : false
+        return (<article  className="col col-6 list__item-container" key={index}>
           <div className="list__item">
-            <div className="image-wrapper">
+            <div className="image-wrapper" onClick={() => singleView(props.category!, index)}>
               <figure>
                 <img src={(item.Poster !== 'N/A')
                   ? item.Poster
@@ -44,7 +59,9 @@ const List: React.FC<ListProps> = (props) => {
                 } alt="" />
               </figure>
             </div>
-            <h1 className="title list__item-title">{
+            <h1 className="title list__item-title">
+            <StarFilled  style={{color: item.isFavorite ? "yellow" : ""}} className="star" id={`star-${index}`} onClick={()=>{ToggleFavorite(index, props.category!);setStarIconcolor(index)}}/>
+              {
               item.Title
             }</h1>
           </div>
@@ -57,10 +74,10 @@ const List: React.FC<ListProps> = (props) => {
 };
 
 function mapStateToProps(state: RootState, ownProps: ListProps) {
-  if (state.search.Search.length > 0) {
+  if (ownProps.show === "search") {
     return { items: state.search.Search, category: 'search', totalResults: state.search.totalResults, searchQuery: state.search.searchQuery };
-  } else if (ownProps.show === "movies") {
-    return { items: state.movie.Search, category: 'movie', totalResults: state.movie.totalResults, searchQuery: state.movie.searchQuery };
+  } else if (ownProps.show === "favorite") {
+    return { items: state.favorite.Search, category: 'favorite', totalResults: state.favorite.totalResults, searchQuery: state.favorite.searchQuery };
   } 
 }
 

@@ -3,7 +3,7 @@ import { GET_TOP_MOVIES, MovieAction, TopMoviesDataResponse } from '../types'
 
 const initialState: TopMoviesDataResponse = {Search: [], totalResults:0, searchQuery: ''}
 
-function moviesReducer(state = initialState, action: MovieAction): TopMoviesDataResponse {
+function favoriteReducer(state = initialState, action: MovieAction): TopMoviesDataResponse {
   switch (action.type) {
     case GET_TOP_MOVIES: {
       return action.payload
@@ -13,4 +13,4 @@ function moviesReducer(state = initialState, action: MovieAction): TopMoviesData
   }
 }
 
-export default moviesReducer;
+export default favoriteReducer;

@@ -2,13 +2,13 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import searchReducer from './reducers/searchReducer';
-import moviesReducer from './reducers/moviesReducer';
+import favoriteReducer from './reducers/favoriteReducer';
 
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
   search: searchReducer,
-  movie: moviesReducer,
+  favorite: favoriteReducer,
 })
 
 const store = createStore(rootReducer,
