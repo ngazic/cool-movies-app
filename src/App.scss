@@ -1,12 +1,8 @@
 @import '~antd/dist/antd.css';
 
 .App {
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-  padding-top: 60px;
-  padding-bottom: 60px;
 
   @media (min-width: 1200px) {
     max-width: 1140px;

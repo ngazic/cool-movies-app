@@ -13,13 +13,13 @@ const Navigation: FunctionComponent<NavigationProps> = (props) => {
       : "";
   };
 
-  return (<nav className="navigation">
+  return (<nav style={{marginBottom: '16px'}}>
     <Menu mode="horizontal">
       <Menu.Item icon={<FileSearchOutlined />}  className={setActiveLink('search')} >
-        <Link to="/search">Search for Movies</Link>
+        <Link to="/search">Search</Link>
       </Menu.Item>
       <Menu.Item icon={<StarOutlined />} className={setActiveLink('favorite')}>
-        <Link to="/favorite">Favorite</Link>
+        <Link to="/favorite">Favorites</Link>
       </Menu.Item>
     </Menu>
   </nav>);
