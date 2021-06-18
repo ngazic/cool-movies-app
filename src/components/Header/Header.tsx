@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import {useLocation} from "react-router-dom";
 import {getSearchItems} from "../../store/actions";
 import Navigation from "./Navigation/Navigation";
-import {Descriptions, Input, message, PageHeader} from "antd";
+import {Input, message, PageHeader} from "antd";
 import { Content } from "antd/lib/layout/layout";
 
 const Header: FunctionComponent = () => {
