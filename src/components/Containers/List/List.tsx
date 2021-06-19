@@ -50,7 +50,6 @@ const List: React.FC<ListProps> = (props) => {
     {
       props.items!.map((item: Items, index: number) => {
         item.isFavorite = item.isFavorite ? true : false
-        console.log(item.isFavorite)
         return (<Col xs={{ span: 24 }} sm={{ span: 10, offset: 1 }} lg={{ span: 10, offset:1 }} className="list__item-container" key={index}>
           
           <div className="list__item">
@@ -77,8 +76,6 @@ const List: React.FC<ListProps> = (props) => {
 };
 
 function mapStateToProps(state: RootState, ownProps: ListProps) {
-  console.log('state from list.tsx')
-  console.log(state)
   if (ownProps.show === "search") {
     return { items: state.search.Search, category: 'search', totalResults: state.search.totalResults, searchQuery: state.search.searchQuery };
   } else if (ownProps.show === "favorite") {
