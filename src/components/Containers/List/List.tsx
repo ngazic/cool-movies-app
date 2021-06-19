@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Items } from "../../../store/types";
-import React from "react";
+import React, { useRef } from "react";
 import { RootState } from "../../../store";
 import "./List.scss";
 import { useHistory } from "react-router-dom";
@@ -22,6 +22,7 @@ interface ListProps {
 const List: React.FC<ListProps> = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const starRefs = useRef([]);
 
   const singleView = (category: string, id: number) => {
     history.push("/single", { category, id });
@@ -29,18 +30,16 @@ const List: React.FC<ListProps> = (props) => {
 
   const ToggleFavorite = (index: number, category: string) => {
     dispatch(setFavoritePicks(index, category));
-  }
-  const fetchMoreData = async () => {
-   const page = (props.items?.length!/10) + 1;
-    dispatch(getSearchItems(props.searchQuery!, page))
-  }
-  const setStarIconcolor = (id: string) => {
-    const el = (document.querySelector(`#star-${id} svg`) as HTMLElement);
+    const el =(starRefs.current[index] as HTMLElement).querySelector('svg')!;
     if(el.style['fill'] !== ''){
       el.style['fill'] = '';
     }else {
       el.style['fill'] = 'yellow';
     }
+  }
+  const fetchMoreData = async () => {
+   const page = (props.items?.length!/10) + 1;
+    dispatch(getSearchItems(props.searchQuery!, page))
   }
   return (<div>
     <InfiniteScroll dataLength={props.items?.length||0}  next={fetchMoreData}
@@ -64,7 +63,7 @@ const List: React.FC<ListProps> = (props) => {
               </figure>
             </div>
             <h1 className="title list__item-title">
-            <StarFilled  style={{color: item.isFavorite ? "yellow" : ""}} className="star" id={`star-${item.imdbID}`} onClick={()=>{ToggleFavorite(index, props.category!);setStarIconcolor(item.imdbID)}}/>
+            <StarFilled  style={{color: item.isFavorite ? "yellow" : ""}} ref={el => (starRefs.current[index]as any) = el} className="star" onClick={()=>ToggleFavorite(index, props.category!)}/>
               {
               item.Title
             }</h1>

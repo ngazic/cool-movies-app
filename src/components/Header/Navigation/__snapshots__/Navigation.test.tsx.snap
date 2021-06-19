@@ -3,7 +3,7 @@
 exports[`src/components/Header/Navigation/Navigation.tsx should match snapshot 1`] = `
 <DocumentFragment>
   <nav
-    class="navigation"
+    style="margin-bottom: 16px;"
   >
     <ul
       class="ant-menu-overflow ant-menu ant-menu-root ant-menu-horizontal ant-menu-light"
