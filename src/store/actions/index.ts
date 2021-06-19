@@ -14,6 +14,14 @@ export const getSearchItems = (query="hello world", page = 1): ThunkAction<void,
       }
       const data: TopMoviesDataResponse = await res.json();
       const mainState = store.getState();
+      data.Search.map(item => {
+        const isFavorite = mainState.favorite.Search.some(x=> x.imdbID===item.imdbID);
+        if(isFavorite) {
+          item.isFavorite = true
+        } 
+        return item;
+      }
+        )
       let payload: TopMoviesDataResponse;
       if (query === mainState.search.searchQuery) {
         payload = {Search: mainState.search.Search.concat(data.Search), searchQuery: query, totalResults: data.totalResults}
@@ -50,7 +58,9 @@ export const setFavoritePicks = (index: number, category: string): ThunkAction<v
       }else {
         if(itemToToggleFavStatus?.isFavorite){
           let removeIndexFromSearch = mainState.search.Search.findIndex(value => value.imdbID === itemToToggleFavStatus.imdbID )
-          mainState.search.Search[removeIndexFromSearch].isFavorite = false;
+          if(removeIndexFromSearch >= 0) {
+            mainState.search.Search[removeIndexFromSearch].isFavorite = false;
+          }
           mainState.favorite.Search.splice(index,1);
         }
       }

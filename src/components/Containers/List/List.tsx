@@ -34,8 +34,8 @@ const List: React.FC<ListProps> = (props) => {
    const page = (props.items?.length!/10) + 1;
     dispatch(getSearchItems(props.searchQuery!, page))
   }
-  const setStarIconcolor = (index: number) => {
-    const el = (document.querySelector(`#star-${index} svg`) as HTMLElement);
+  const setStarIconcolor = (id: string) => {
+    const el = (document.querySelector(`#star-${id} svg`) as HTMLElement);
     if(el.style['fill'] !== ''){
       el.style['fill'] = '';
     }else {
@@ -51,6 +51,7 @@ const List: React.FC<ListProps> = (props) => {
     {
       props.items!.map((item: Items, index: number) => {
         item.isFavorite = item.isFavorite ? true : false
+        console.log(item.isFavorite)
         return (<Col xs={{ span: 24 }} sm={{ span: 10, offset: 1 }} lg={{ span: 10, offset:1 }} className="list__item-container" key={index}>
           
           <div className="list__item">
@@ -63,7 +64,7 @@ const List: React.FC<ListProps> = (props) => {
               </figure>
             </div>
             <h1 className="title list__item-title">
-            <StarFilled  style={{color: item.isFavorite ? "yellow" : ""}} className="star" id={`star-${index}`} onClick={()=>{ToggleFavorite(index, props.category!);setStarIconcolor(index)}}/>
+            <StarFilled  style={{color: item.isFavorite ? "yellow" : ""}} className="star" id={`star-${item.imdbID}`} onClick={()=>{ToggleFavorite(index, props.category!);setStarIconcolor(item.imdbID)}}/>
               {
               item.Title
             }</h1>
@@ -77,6 +78,8 @@ const List: React.FC<ListProps> = (props) => {
 };
 
 function mapStateToProps(state: RootState, ownProps: ListProps) {
+  console.log('state from list.tsx')
+  console.log(state)
   if (ownProps.show === "search") {
     return { items: state.search.Search, category: 'search', totalResults: state.search.totalResults, searchQuery: state.search.searchQuery };
   } else if (ownProps.show === "favorite") {

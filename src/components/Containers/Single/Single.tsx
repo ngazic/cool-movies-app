@@ -77,7 +77,6 @@ const Single: React.FC<ListProps> = (props) => {
   }
 
   const onTabChange = (key:string, type:string) => {
-    console.log(key, type);
     setTab(key);
   };
   const {Meta} = Card;
